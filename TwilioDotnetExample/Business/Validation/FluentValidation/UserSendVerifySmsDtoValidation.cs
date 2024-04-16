@@ -8,9 +8,18 @@ namespace TwilioDotnetExample.Business.Validation.FluentValidation
     {
         public UserSendVerifySmsDtoValidation()
         {
+            RuleFor(x => x.CountryCode)
+                .NotEmpty()
+                .WithMessage(Messages.CountryCodeRequired)
+                .Matches(@"^\d{1,3}$")
+                .WithMessage(Messages.InvalidCountryCode);
+
             RuleFor(x => x.PhoneNumber)
-                .NotEmpty().WithMessage(Messages.PhoneNumberRequired)
-                .Matches(@"^\+\d{1,3}\d{3}\d{3}\d{4}$")
+                .NotEmpty()
+                .WithMessage(Messages.PhoneNumberRequired)
+                .Length(Variables.PhoneNumberLength)
+                .WithMessage(Messages.PhoneNumberLengthError)
+                .Matches(@"^\d{3}\d{3}\d{4}$")
                 .WithMessage(Messages.InvalidPhoneNumberFormat);
         }
     }

@@ -7,7 +7,7 @@ using TwilioDotnetExample.Services.DeserializationModels;
 
 namespace TwilioDotnetExample.Services.Concrete
 {
-    public class TwilioService : ITwilioService
+    public sealed class TwilioService : ITwilioService
     {
         private TwilioSettings? _twilioSettings;
 
@@ -19,37 +19,23 @@ namespace TwilioDotnetExample.Services.Concrete
 
         public IResultClient SendVerificationSms(string phoneNumber)
         {
-            try
-            {
-                VerificationResource? verification = VerificationResource.Create(to: phoneNumber, channel: _twilioSettings?.VerifyChannel, pathServiceSid: _twilioSettings?.VerificationServiceSid);
+            VerificationResource? verification = VerificationResource.Create(to: phoneNumber, channel: _twilioSettings?.VerifyChannel, pathServiceSid: _twilioSettings?.VerificationServiceSid);
 
-                if (verification.Status != TwilioStatus.Pending)
-                {
-                    return new Result(false, Messages.SendVerificationSmsError);
-                }
-            }
-            catch (Exception ex)
+            if (verification.Status != TwilioStatus.Pending)
             {
-                return new Result(false, ex.Message);
+                throw new Exception(Messages.SendVerificationSmsError);
             }
-
+            
             return new Result(true, Messages.SendVerificationSmsSuccess);
         }
 
         public IResultClient ConfirmVerificationSms(string phoneNumber, string verificationCode)
         {
-            try
-            {
-                VerificationCheckResource? verificationCheck = VerificationCheckResource.Create(to: phoneNumber, code: verificationCode, pathServiceSid: _twilioSettings?.VerificationServiceSid);
+            VerificationCheckResource? verificationCheck = VerificationCheckResource.Create(to: phoneNumber, code: verificationCode, pathServiceSid: _twilioSettings?.VerificationServiceSid);
 
-                if (verificationCheck.Status != TwilioStatus.Approved)
-                {
-                    return new Result(false, Messages.SendVerificationSmsError);
-                }
-            }
-            catch (Exception ex)
+            if (verificationCheck.Status != TwilioStatus.Approved)
             {
-                return new Result(false, ex.Message);
+                throw new Exception(Messages.SendVerificationSmsError);
             }
 
             return new Result(true, Messages.ConfirmVerificationSmsSuccess);

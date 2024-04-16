@@ -1,5 +1,5 @@
-using TwilioDotnetExample.Services.Abstract;
-using TwilioDotnetExample.Services.Concrete;
+using TwilioDotnetExample.Core.Extensions.Services;
+using TwilioDotnetExample.Core.Extensions.WebApp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,9 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<ITwilioService, TwilioService>();
+builder.Services.InitializeTransient();
 
 var app = builder.Build();
+
+app.AddExceptionHandling();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

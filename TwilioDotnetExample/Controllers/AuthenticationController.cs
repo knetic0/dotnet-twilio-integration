@@ -12,29 +12,22 @@ namespace TwilioDotnetExample.Controllers
     [Route("api/[controller]/")]
     public class AuthenticationController(ITwilioService twilioService) : ControllerBase
     {
-        private ITwilioService _twilioService = twilioService;
+        private readonly ITwilioService _twilioService = twilioService;
 
         [HttpPost]
         [AllowAnonymous]
         [Route(nameof(UserSendVerificationSms))]
         public IResultClient UserSendVerificationSms([FromBody] UserSendVerifySmsDto args)
         {
-            try
-            {
-                UserSendVerifySmsDtoValidation validator = new();
+            UserSendVerifySmsDtoValidation validator = new();
 
-                ValidationResult? result = validator.Validate(args);
-                if(!result.IsValid)
-                {
-                    return new DataResult<IEnumerable<ValidationFailure>>(result.Errors, false);
-                }
-
-                return _twilioService.SendVerificationSms(args.PhoneNumber);
-            }
-            catch (Exception ex)
+            ValidationResult? result = validator.Validate(args);
+            if(!result.IsValid)
             {
-                return new Result(false, ex.Message);
+                return new DataResult<IEnumerable<ValidationFailure>>(result.Errors, false);
             }
+
+            return _twilioService.SendVerificationSms(args.PhoneNumber);
         }
 
         [HttpPost]
@@ -42,22 +35,15 @@ namespace TwilioDotnetExample.Controllers
         [Route(nameof(UserConfirmVerificationSms))]
         public IResultClient UserConfirmVerificationSms([FromBody] UserConfirmVerifySmsDto args)
         {
-            try
-            {
-                UserConfirmVerifySmsDtoValidation validation = new();
+            UserConfirmVerifySmsDtoValidation validation = new();
 
-                ValidationResult? result = validation.Validate(args);
-                if(!result.IsValid)
-                {
-                    return new DataResult<IEnumerable<ValidationFailure>>(result.Errors, false);
-                }
-
-                return _twilioService.ConfirmVerificationSms(args.PhoneNumber, args.VerificationCode);
-            }
-            catch(Exception ex)
+            ValidationResult? result = validation.Validate(args);
+            if(!result.IsValid)
             {
-                return new Result(false, ex.Message);
+                return new DataResult<IEnumerable<ValidationFailure>>(result.Errors, false);
             }
+
+            return _twilioService.ConfirmVerificationSms(args.PhoneNumber, args.VerificationCode);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace TwilioDotnetExample.Entities.DTOs
 {
-    public record UserConfirmVerifySmsDto(string PhoneNumber, string VerificationCode) : IDto
+    public record UserConfirmVerifySmsDto(string CountryCode, string PhoneNumber, string VerificationCode) : IDto
     {
     }
 }
