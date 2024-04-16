@@ -11,7 +11,7 @@ namespace TwilioDotnetExample.Business.Validation.FluentValidation
             RuleFor(x => x.CountryCode)
                 .NotEmpty()
                 .WithMessage(Messages.CountryCodeRequired)
-                .Matches(@"^\d{1,3}$")
+                .Matches(@"^\+(?:[0-9]?){1,3}$")
                 .WithMessage(Messages.InvalidCountryCode);
 
             RuleFor(x => x.PhoneNumber)

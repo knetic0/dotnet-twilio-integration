@@ -27,7 +27,9 @@ namespace TwilioDotnetExample.Controllers
                 return new DataResult<IEnumerable<ValidationFailure>>(result.Errors, false);
             }
 
-            return _twilioService.SendVerificationSms(args.PhoneNumber);
+            string phoneNumber = string.Concat(args.CountryCode, args.PhoneNumber);
+
+            return _twilioService.SendVerificationSms(phoneNumber);
         }
 
         [HttpPost]
@@ -43,7 +45,9 @@ namespace TwilioDotnetExample.Controllers
                 return new DataResult<IEnumerable<ValidationFailure>>(result.Errors, false);
             }
 
-            return _twilioService.ConfirmVerificationSms(args.PhoneNumber, args.VerificationCode);
+            string phoneNumber = string.Concat(args.CountryCode, args.PhoneNumber);
+
+            return _twilioService.ConfirmVerificationSms(phoneNumber, args.VerificationCode);
         }
     }
 }
