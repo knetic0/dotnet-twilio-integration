@@ -17,9 +17,9 @@ namespace TwilioDotnetExample.Services.Concrete
             TwilioClient.Init(_twilioSettings?.AccountSid, _twilioSettings?.AuthenticationKey);
         }
 
-        public IResultClient SendVerificationSms(string phoneNumber)
+        public async Task<IResultClient> SendVerificationSmsAsync(string phoneNumber)
         {
-            VerificationResource? verification = VerificationResource.Create(to: phoneNumber, channel: _twilioSettings?.VerifyChannel, pathServiceSid: _twilioSettings?.VerificationServiceSid);
+            VerificationResource? verification = await VerificationResource.CreateAsync(to: phoneNumber, channel: _twilioSettings?.VerifyChannel, pathServiceSid: _twilioSettings?.VerificationServiceSid);
 
             if (verification.Status != TwilioStatus.Pending)
             {
@@ -29,9 +29,9 @@ namespace TwilioDotnetExample.Services.Concrete
             return new Result(true, Messages.SendVerificationSmsSuccess);
         }
 
-        public IResultClient ConfirmVerificationSms(string phoneNumber, string verificationCode)
+        public async Task<IResultClient> ConfirmVerificationSmsAsync(string phoneNumber, string verificationCode)
         {
-            VerificationCheckResource? verificationCheck = VerificationCheckResource.Create(to: phoneNumber, code: verificationCode, pathServiceSid: _twilioSettings?.VerificationServiceSid);
+            VerificationCheckResource? verificationCheck = await VerificationCheckResource.CreateAsync(to: phoneNumber, code: verificationCode, pathServiceSid: _twilioSettings?.VerificationServiceSid);
 
             if (verificationCheck.Status != TwilioStatus.Approved)
             {

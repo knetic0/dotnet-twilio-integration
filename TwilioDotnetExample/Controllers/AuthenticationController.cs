@@ -17,7 +17,7 @@ namespace TwilioDotnetExample.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route(nameof(UserSendVerificationSms))]
-        public IResultClient UserSendVerificationSms([FromBody] UserSendVerifySmsDto args)
+        public async Task<IResultClient> UserSendVerificationSms([FromBody] UserSendVerifySmsDto args)
         {
             UserSendVerifySmsDtoValidation validator = new();
 
@@ -29,13 +29,13 @@ namespace TwilioDotnetExample.Controllers
 
             string phoneNumber = string.Concat(args.CountryCode, args.PhoneNumber);
 
-            return _twilioService.SendVerificationSms(phoneNumber);
+            return await _twilioService.SendVerificationSmsAsync(phoneNumber);
         }
 
         [HttpPost]
         [AllowAnonymous]
         [Route(nameof(UserConfirmVerificationSms))]
-        public IResultClient UserConfirmVerificationSms([FromBody] UserConfirmVerifySmsDto args)
+        public async Task<IResultClient> UserConfirmVerificationSms([FromBody] UserConfirmVerifySmsDto args)
         {
             UserConfirmVerifySmsDtoValidation validation = new();
 
@@ -47,7 +47,7 @@ namespace TwilioDotnetExample.Controllers
 
             string phoneNumber = string.Concat(args.CountryCode, args.PhoneNumber);
 
-            return _twilioService.ConfirmVerificationSms(phoneNumber, args.VerificationCode);
+            return await _twilioService.ConfirmVerificationSmsAsync(phoneNumber, args.VerificationCode);
         }
     }
 }

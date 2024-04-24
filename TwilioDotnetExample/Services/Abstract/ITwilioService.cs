@@ -4,7 +4,7 @@ namespace TwilioDotnetExample.Services.Abstract
 {
     public interface ITwilioService
     {
-        IResultClient SendVerificationSms(string phoneNumber);
-        IResultClient ConfirmVerificationSms(string phoneNumber, string verificationCode);
+        Task<IResultClient> SendVerificationSmsAsync(string phoneNumber);
+        Task<IResultClient> ConfirmVerificationSmsAsync(string phoneNumber, string verificationCode);
     }
 }
