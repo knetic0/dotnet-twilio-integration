@@ -15,17 +15,17 @@ namespace TwilioDotnetExample.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route(nameof(UserSendVerificationSms))]
-        public async Task<IResultClient> UserSendVerificationSms([FromBody] UserSendVerifySmsDto args)
+        public async Task<IResultClient> UserSendVerificationSms([FromBody] UserSendVerifySmsDto args, CancellationToken cancellationToken)
         {
-            return await _authenticationService.UserSendVerificationSmsServiceAsync(args);
+            return await _authenticationService.UserSendVerificationSmsServiceAsync(args, cancellationToken);
         }
 
         [HttpPost]
         [AllowAnonymous]
         [Route(nameof(UserConfirmVerificationSms))]
-        public async Task<IResultClient> UserConfirmVerificationSms([FromBody] UserConfirmVerifySmsDto args)
+        public async Task<IResultClient> UserConfirmVerificationSms([FromBody] UserConfirmVerifySmsDto args, CancellationToken cancellationToken)
         {
-            return await _authenticationService.UserConfirmVerificationSmsServiceAsync(args);
+            return await _authenticationService.UserConfirmVerificationSmsServiceAsync(args, cancellationToken);
         }
     }
 }

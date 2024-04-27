@@ -11,8 +11,10 @@ namespace TwilioDotnetExample.Business.Concrete
     {
         private readonly ITwilioService _twilioService = twilioService;
 
-        public async Task<IResultClient> UserSendVerificationSmsServiceAsync(UserSendVerifySmsDto args)
+        public async Task<IResultClient> UserSendVerificationSmsServiceAsync(UserSendVerifySmsDto args, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             UserSendVerifySmsDtoValidation validation = new();
 
             ValidationResult? result = validation.Validate(args);
@@ -26,8 +28,10 @@ namespace TwilioDotnetExample.Business.Concrete
             return await _twilioService.SendVerificationSmsAsync(phoneNumber);
         }
 
-        public async Task<IResultClient> UserConfirmVerificationSmsServiceAsync(UserConfirmVerifySmsDto args)
+        public async Task<IResultClient> UserConfirmVerificationSmsServiceAsync(UserConfirmVerifySmsDto args, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             UserConfirmVerifySmsDtoValidation validation = new();
 
             ValidationResult? result = validation.Validate(args);
