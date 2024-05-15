@@ -9,7 +9,7 @@ namespace TwilioDotnetExample.Services.Concrete
 {
     public sealed class TwilioService : ITwilioService
     {
-        private TwilioSettings? _twilioSettings;
+        private readonly TwilioSettings? _twilioSettings;
 
         public TwilioService(IConfiguration configuration)
         {
@@ -23,7 +23,7 @@ namespace TwilioDotnetExample.Services.Concrete
 
             if (verification.Status != TwilioStatus.Pending)
             {
-                throw new Exception(Messages.SendVerificationSmsError);
+                return new Result(false, Messages.SendVerificationSmsError);
             }
             
             return new Result(true, Messages.SendVerificationSmsSuccess);
@@ -35,7 +35,7 @@ namespace TwilioDotnetExample.Services.Concrete
 
             if (verificationCheck.Status != TwilioStatus.Approved)
             {
-                throw new Exception(Messages.SendVerificationSmsError);
+                return new Result(false, Messages.ConfirmVerificationSmsError);
             }
 
             return new Result(true, Messages.ConfirmVerificationSmsSuccess);
