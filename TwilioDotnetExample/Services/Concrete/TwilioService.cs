@@ -13,7 +13,7 @@ namespace TwilioDotnetExample.Services.Concrete
 
         public TwilioService(IConfiguration configuration)
         {
-            _twilioSettings = configuration.GetSection("TwilioSettings").Get<TwilioSettings>();
+            _twilioSettings = configuration.GetSection(nameof(TwilioSettings)).Get<TwilioSettings>();
             TwilioClient.Init(_twilioSettings?.AccountSid, _twilioSettings?.AuthenticationKey);
         }
 
